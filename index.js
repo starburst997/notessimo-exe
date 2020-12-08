@@ -32,12 +32,26 @@ const zip = (dir, output) => {
 	archive.finalize();
 }
 
+const zipFile = (file, output) => {
+	var output = fs.createWriteStream(output);
+	var archive = archiver('zip');
+
+	archive.on('error', function(err){
+	    throw err;
+	});
+
+	archive.pipe(output);
+	archive.file(file, {name: file.substr(file.lastIndexOf('/') + 1)});
+	archive.finalize();
+}
+
 // Windows
 const WindowsV3Standard = async () => {
 	const projector = new ProjectorWindows32('output/windows/NotessimoV3_Standard.exe');
 
 	projector.iconFile = 'icon/icon.ico';
 	projector.patchWindowTitle = 'Notessimo V3';
+	projector.removeCodeSignature = true;
 	projector.versionStrings = {
 		FileVersion: '3.0.0',
 		ProductVersion: '3.0.0',
@@ -50,6 +64,8 @@ const WindowsV3Standard = async () => {
 	};
 
 	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/NotessimoV3_Standard.swf');
+
+	zipFile('output/windows/NotessimoV3_Standard.exe', 'output/windows/NotessimoV3_Standard.zip');
 }
 
 const WindowsV3Legacy = async () => {
@@ -57,6 +73,7 @@ const WindowsV3Legacy = async () => {
 
 	projector.iconFile = 'icon/icon.ico';
 	projector.patchWindowTitle = 'Notessimo V3';
+	projector.removeCodeSignature = true;
 	projector.versionStrings = {
 		FileVersion: '3.0.0',
 		ProductVersion: '3.0.0',
@@ -69,6 +86,8 @@ const WindowsV3Legacy = async () => {
 	};
 
 	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/NotessimoV3_Legacy.swf');
+
+	zipFile('output/windows/NotessimoV3_Legacy.exe', 'output/windows/NotessimoV3_Legacy.zip');
 }
 
 const WindowsV2 = async () => {
@@ -76,6 +95,7 @@ const WindowsV2 = async () => {
 
 	projector.iconFile = 'icon/icon.ico';
 	projector.patchWindowTitle = 'Notessimo V2';
+	projector.removeCodeSignature = true;
 	projector.versionStrings = {
 		FileVersion: '2.0.0',
 		ProductVersion: '2.0.0',
@@ -88,6 +108,8 @@ const WindowsV2 = async () => {
 	};
 
 	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/NotessimoV2.swf');
+
+	zipFile('output/windows/NotessimoV2.exe', 'output/windows/NotessimoV2.zip');
 }
 
 const WindowsV1 = async () => {
@@ -95,6 +117,7 @@ const WindowsV1 = async () => {
 
 	projector.iconFile = 'icon/icon.ico';
 	projector.patchWindowTitle = 'Notessimo V1';
+	projector.removeCodeSignature = true;
 	projector.versionStrings = {
 		FileVersion: '1.0.0',
 		ProductVersion: '1.0.0',
@@ -107,6 +130,8 @@ const WindowsV1 = async () => {
 	};
 
 	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/NotessimoV1.swf');
+
+	zipFile('output/windows/NotessimoV1.exe', 'output/windows/NotessimoV1.zip');
 }
 
 const WindowsTracker = async () => {
@@ -114,6 +139,7 @@ const WindowsTracker = async () => {
 
 	projector.iconFile = 'icon/icon.ico';
 	projector.patchWindowTitle = 'Tracker';
+	projector.removeCodeSignature = true;
 	projector.versionStrings = {
 		FileVersion: '0.0.0',
 		ProductVersion: '0.0.0',
@@ -126,6 +152,8 @@ const WindowsTracker = async () => {
 	};
 
 	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/Tracker.swf');
+	
+	zipFile('output/windows/Tracker.exe', 'output/windows/Tracker.zip');
 }
 
 // Mac
@@ -139,7 +167,7 @@ const MacV3Standard = async () => {
 	projector.patchWindowTitle = 'Notessimo V3';
 	projector.removeFileAssociations = true;
 	projector.removeInfoPlistStrings = true;
-	//projector.removeCodeSignature = true;
+	projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/NotessimoV3_Standard.swf');
 
@@ -156,7 +184,7 @@ const MacV3Legacy = async () => {
 	projector.patchWindowTitle = 'Notessimo V3';
 	projector.removeFileAssociations = true;
 	projector.removeInfoPlistStrings = true;
-	//projector.removeCodeSignature = true;
+	projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/NotessimoV3_Legacy.swf');
 
@@ -173,7 +201,7 @@ const MacV2 = async () => {
 	projector.patchWindowTitle = 'Notessimo V2';
 	projector.removeFileAssociations = true;
 	projector.removeInfoPlistStrings = true;
-	//projector.removeCodeSignature = true;
+	projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/NotessimoV2.swf');
 
@@ -190,7 +218,7 @@ const MacV1 = async () => {
 	projector.patchWindowTitle = 'Notessimo V1';
 	projector.removeFileAssociations = true;
 	projector.removeInfoPlistStrings = true;
-	//projector.removeCodeSignature = true;
+	projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/NotessimoV1.swf');
 
@@ -207,7 +235,7 @@ const MacTracker = async () => {
 	projector.patchWindowTitle = 'Tracker';
 	projector.removeFileAssociations = true;
 	projector.removeInfoPlistStrings = true;
-	//projector.removeCodeSignature = true;
+	projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/Tracker.swf');
 	
