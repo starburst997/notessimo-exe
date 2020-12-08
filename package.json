@@ -1,0 +1,8 @@
+{
+  "name": "Notessimo EXE maker",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@shockpkg/swf-projector": "^2.5.1"
+  }
+}
