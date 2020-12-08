@@ -1,10 +1,11 @@
 import fs from 'fs';
 import Path from 'path';
+import archiver from 'archiver';
 import {ProjectorWindows32, ProjectorMacApp, ProjectorLinux64} from '@shockpkg/swf-projector';
 
 const opsys = process.platform;
 
-const deleteFolderRecursive = function(path) {
+const deleteFolderRecursive = (path) => {
   if (fs.existsSync(path)) {
     fs.readdirSync(path).forEach((file, index) => {
       const curPath = Path.join(path, file);
@@ -17,6 +18,19 @@ const deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
+
+const zip = (dir, output) => {
+	var output = fs.createWriteStream(output);
+	var archive = archiver('zip');
+
+	archive.on('error', function(err){
+	    throw err;
+	});
+
+	archive.pipe(output);
+	archive.directory(dir, dir.substr(dir.lastIndexOf('/') + 1));
+	archive.finalize();
+}
 
 // Windows
 const WindowsV3Standard = async () => {
@@ -128,6 +142,8 @@ const MacV3Standard = async () => {
 	//projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/NotessimoV3_Standard.swf');
+
+	zip('output/mac/NotessimoV3_Standard.app', 'output/mac/NotessimoV3_Standard.app.zip');
 }
 
 const MacV3Legacy = async () => {
@@ -143,6 +159,8 @@ const MacV3Legacy = async () => {
 	//projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/NotessimoV3_Legacy.swf');
+
+	zip('output/mac/NotessimoV3_Legacy.app', 'output/mac/NotessimoV3_Legacy.app.zip');
 }
 
 const MacV2 = async () => {
@@ -158,6 +176,8 @@ const MacV2 = async () => {
 	//projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/NotessimoV2.swf');
+
+	zip('output/mac/NotessimoV2.app', 'output/mac/NotessimoV2.app.zip');
 }
 
 const MacV1 = async () => {
@@ -173,6 +193,8 @@ const MacV1 = async () => {
 	//projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/NotessimoV1.swf');
+
+	zip('output/mac/NotessimoV1.app', 'output/mac/NotessimoV1.app.zip');
 }
 
 const MacTracker = async () => {
@@ -188,6 +210,8 @@ const MacTracker = async () => {
 	//projector.removeCodeSignature = true;
 
 	await projector.withFile('projector/flashplayer_32_sa.dmg', 'swf/Tracker.swf');
+	
+	zip('output/mac/Tracker.app', 'output/mac/Tracker.app.zip');
 }
 
 // Linux
