@@ -45,6 +45,19 @@ const zipFile = (file, output) => {
 	archive.finalize();
 }
 
+const tarFile = (file, output) => {
+	var output = fs.createWriteStream(output);
+	var archive = archiver('tar', {gzip: true});
+
+	archive.on('error', function(err){
+	    throw err;
+	});
+
+	archive.pipe(output);
+	archive.file(file, {name: file.substr(file.lastIndexOf('/') + 1)});
+	archive.finalize();
+}
+
 // Windows
 const WindowsV3Standard = async () => {
 	const projector = new ProjectorWindows32('output/windows/NotessimoV3_Standard.exe');
@@ -152,7 +165,7 @@ const WindowsTracker = async () => {
 	};
 
 	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/Tracker.swf');
-	
+
 	zipFile('output/windows/Tracker.exe', 'output/windows/Tracker.zip');
 }
 
@@ -251,6 +264,9 @@ const LinuxV3Standard = async () => {
 	projector.patchProjectorOffset = true;
 
 	await projector.withFile('projector/flash_player_sa_linux.x86_64.tar.gz', 'swf/NotessimoV3_Standard.swf');
+
+	fs.chmodSync('output/linux/NotessimoV3_Standard', 0o755);
+	tarFile('output/linux/NotessimoV3_Standard', 'output/linux/NotessimoV3_Standard.tar.gz');
 }
 
 const LinuxV3Legacy = async () => {
@@ -261,6 +277,9 @@ const LinuxV3Legacy = async () => {
 	projector.patchProjectorOffset = true;
 
 	await projector.withFile('projector/flash_player_sa_linux.x86_64.tar.gz', 'swf/NotessimoV3_Legacy.swf');
+
+	fs.chmodSync('output/linux/NotessimoV3_Legacy', 0o755);
+	tarFile('output/linux/NotessimoV3_Legacy', 'output/linux/NotessimoV3_Legacy.tar.gz');
 }
 
 const LinuxV2 = async () => {
@@ -271,6 +290,9 @@ const LinuxV2 = async () => {
 	projector.patchProjectorOffset = true;
 
 	await projector.withFile('projector/flash_player_sa_linux.x86_64.tar.gz', 'swf/NotessimoV2.swf');
+
+	fs.chmodSync('output/linux/NotessimoV2', 0o755);
+	tarFile('output/linux/NotessimoV2', 'output/linux/NotessimoV2.tar.gz');
 }
 
 const LinuxV1 = async () => {
@@ -281,6 +303,9 @@ const LinuxV1 = async () => {
 	projector.patchProjectorOffset = true;
 
 	await projector.withFile('projector/flash_player_sa_linux.x86_64.tar.gz', 'swf/NotessimoV1.swf');
+
+	fs.chmodSync('output/linux/NotessimoV1', 0o755);
+	tarFile('output/linux/NotessimoV1', 'output/linux/NotessimoV1.tar.gz');
 }
 
 const LinuxTracker = async () => {
@@ -291,6 +316,9 @@ const LinuxTracker = async () => {
 	projector.patchProjectorOffset = true;
 
 	await projector.withFile('projector/flash_player_sa_linux.x86_64.tar.gz', 'swf/Tracker.swf');
+
+	fs.chmodSync('output/linux/Tracker', 0o755);
+	tarFile('output/linux/Tracker', 'output/linux/Tracker.tar.gz');
 }
 
 // Cleanup
