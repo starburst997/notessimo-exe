@@ -76,7 +76,7 @@ const WindowsV3Standard = async () => {
 		InternalName: 'Notessimo V3 - Standard'
 	};
 
-	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/NotessimoV3_Standard.swf');
+	await projector.withFile('projector/flashplayer_64.exe', 'swf/NotessimoV3_Standard.swf');
 
 	zipFile('output/windows/NotessimoV3_Standard.exe', 'output/windows/NotessimoV3_Standard.zip');
 }
@@ -98,7 +98,7 @@ const WindowsV3Legacy = async () => {
 		InternalName: 'Notessimo V3 - Legacy'
 	};
 
-	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/NotessimoV3_Legacy.swf');
+	await projector.withFile('projector/flashplayer_64.exe', 'swf/NotessimoV3_Legacy.swf');
 
 	zipFile('output/windows/NotessimoV3_Legacy.exe', 'output/windows/NotessimoV3_Legacy.zip');
 }
@@ -120,7 +120,7 @@ const WindowsV2 = async () => {
 		InternalName: 'Notessimo V2'
 	};
 
-	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/NotessimoV2.swf');
+	await projector.withFile('projector/flashplayer_64.exe', 'swf/NotessimoV2.swf');
 
 	zipFile('output/windows/NotessimoV2.exe', 'output/windows/NotessimoV2.zip');
 }
@@ -142,7 +142,7 @@ const WindowsV1 = async () => {
 		InternalName: 'Notessimo V1'
 	};
 
-	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/NotessimoV1.swf');
+	await projector.withFile('projector/flashplayer_64.exe', 'swf/NotessimoV1.swf');
 
 	zipFile('output/windows/NotessimoV1.exe', 'output/windows/NotessimoV1.zip');
 }
@@ -164,7 +164,7 @@ const WindowsTracker = async () => {
 		InternalName: 'Tracker'
 	};
 
-	await projector.withFile('projector/flashplayer_32_sa.exe', 'swf/Tracker.swf');
+	await projector.withFile('projector/flashplayer_64.exe', 'swf/Tracker.swf');
 
 	zipFile('output/windows/Tracker.exe', 'output/windows/Tracker.zip');
 }
